@@ -78,7 +78,7 @@ def assert_allclose(actual, desired, rtol=1e-7, atol=1e-7):
     """Version of np.testing.assert_allclose with `atol` and `rtol` fields set
     in reasonable defaults.
 
-    Arguments `actual` and `desired` are not interchangable, since the function
+    Arguments `actual` and `desired` are not interchangeable, since the function
     compares the `abs(actual-desired)` with `atol+rtol*abs(desired)`.  Since we
     often allow `desired` to be close to zero, we generally want non-zero `atol`.
     """
@@ -414,7 +414,7 @@ def _get_targets(target_str=None):
 
 
 DEFAULT_TEST_TARGETS = (
-    "llvm;cuda;opencl;metal;rocm;vulkan;nvptx;"
+    "llvm;cuda;opencl;metal;rocm;vulkan -from_device=0;nvptx;"
     "llvm -device=arm_cpu;opencl -device=mali,aocl_sw_emu"
 )
 

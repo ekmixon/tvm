@@ -224,7 +224,7 @@ class Handler(server.ProjectAPIHandler):
             # Copy C files from model. The filesnames and quantity
             # depend on the target string, so we just copy all c files
             source_dir = mlf_unpacking_dir / "codegen" / "host" / "src"
-            for file in source_dir.rglob(f"*.c"):
+            for file in source_dir.rglob("*.c"):
                 shutil.copy(file, model_dir)
 
             # Return metadata.json for use in templating
@@ -258,7 +258,7 @@ class Handler(server.ProjectAPIHandler):
             for filename in source_dir.rglob(f"*.{ext}"):
                 filename.rename(filename.with_suffix(".cpp"))
 
-        for filename in source_dir.rglob(f"*.inc"):
+        for filename in source_dir.rglob("*.inc"):
             filename.rename(filename.with_suffix(".h"))
 
     def _convert_includes(self, project_dir, source_dir):
@@ -471,7 +471,7 @@ class Handler(server.ProjectAPIHandler):
 
         # It takes a moment for the Arduino code to finish initializing
         # and start communicating over serial
-        for attempts in range(10):
+        for _ in range(10):
             if any(serial.tools.list_ports.grep(port)):
                 break
             time.sleep(0.5)

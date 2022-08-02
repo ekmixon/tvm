@@ -206,21 +206,20 @@ ATTACH_USB_DEVICE = {
 
 
 def generate_packer_config(platform, file_path, providers):
-    builders = []
     provisioners = []
-    for provider_name in providers:
-        builders.append(
-            {
-                "name": f"{provider_name}",
-                "type": "vagrant",
-                "box_name": f"microtvm-base-{provider_name}",
-                "output_dir": f"output-packer-{provider_name}",
-                "communicator": "ssh",
-                "source_path": "generic/ubuntu1804",
-                "provider": provider_name,
-                "template": "Vagrantfile.packer-template",
-            }
-        )
+    builders = [
+        {
+            "name": f"{provider_name}",
+            "type": "vagrant",
+            "box_name": f"microtvm-base-{provider_name}",
+            "output_dir": f"output-packer-{provider_name}",
+            "communicator": "ssh",
+            "source_path": "generic/ubuntu1804",
+            "provider": provider_name,
+            "template": "Vagrantfile.packer-template",
+        }
+        for provider_name in providers
+    ]
 
     repo_root = subprocess.check_output(
         ["git", "rev-parse", "--show-toplevel"], encoding="utf-8"
@@ -415,7 +414,7 @@ def test_command(args):
                 subprocess.check_call(["vagrant", "destroy", "-f"], cwd=release_test_dir)
                 shutil.rmtree(release_test_dir)
 
-        if not all(provider_passed[p] for p in provider_passed.keys()):
+        if not all(provider_passed[p] for p in provider_passed):
             sys.exit(
                 "some providers failed release test: "
                 + ",".join(name for name, passed in provider_passed if not passed)
@@ -437,7 +436,7 @@ def release_command(args):
             ]
         )
     if not args.release_version:
-        sys.exit(f"--release-version must be specified")
+        sys.exit("--release-version must be specified")
 
     for provider_name in args.provider:
         subprocess.check_call(

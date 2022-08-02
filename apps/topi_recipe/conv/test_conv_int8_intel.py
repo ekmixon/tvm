@@ -205,4 +205,6 @@ if __name__ == "__main__":
         )
 
         SPEEDUP_ARRAY.append(fp32_time / int8_time)
-    LOGGER.info("Average speedup --> %s" % str(sum(SPEEDUP_ARRAY) / float(len(SPEEDUP_ARRAY))))
+    LOGGER.info(
+        f"Average speedup --> {str(sum(SPEEDUP_ARRAY) / float(len(SPEEDUP_ARRAY)))}"
+    )

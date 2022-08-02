@@ -52,12 +52,9 @@ args = parser.parse_args()
 team_id = args.team_id
 bundle_identifier = args.bundle_identifier
 
-fi = open("tvmrpc.xcodeproj/project.pbxproj")
-proj_config = fi.read()
-fi.close()
-
+with open("tvmrpc.xcodeproj/project.pbxproj") as fi:
+    proj_config = fi.read()
 proj_config = proj_config.replace(default_team_id, team_id)
 proj_config = proj_config.replace(default_bundle_identifier, bundle_identifier)
-fo = open("tvmrpc.xcodeproj/project.pbxproj", "w")
-fo.write(proj_config)
-fo.close()
+with open("tvmrpc.xcodeproj/project.pbxproj", "w") as fo:
+    fo.write(proj_config)

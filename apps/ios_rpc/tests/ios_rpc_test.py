@@ -20,6 +20,7 @@ To use it, start a rpc proxy with "python -m tvm.exec.rpc_proxy".
 And configure the proxy host field as commented.
 """
 
+
 import tvm
 from tvm import te
 import os
@@ -36,7 +37,7 @@ proxy_host = os.environ["TVM_IOS_RPC_PROXY_HOST"]
 destination = os.environ["TVM_IOS_RPC_DESTINATION"]
 
 if not re.match(r"^platform=.*,id=.*$", destination):
-    print("Bad format: {}".format(destination))
+    print(f"Bad format: {destination}")
     print("Example of expected string: platform=iOS,id=1234567890abcabcabcabc1234567890abcabcab")
     sys.exit(1)
 
@@ -46,7 +47,7 @@ key = "iphone"
 # Change target configuration, this is setting for iphone6s
 arch = "arm64"
 sdk = "iphoneos"
-target = "llvm -mtriple=%s-apple-darwin" % arch
+target = f"llvm -mtriple={arch}-apple-darwin"
 
 # override metal compiler to compile to iphone
 @tvm.register_func("tvm_callback_metal_compile")

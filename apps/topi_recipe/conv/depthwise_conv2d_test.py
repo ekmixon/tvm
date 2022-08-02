@@ -34,8 +34,7 @@ USE_MANUAL_CODE = False
 
 @tvm.register_func
 def tvm_callback_cuda_compile(code):
-    ptx = nvcc.compile_cuda(code, target="ptx")
-    return ptx
+    return nvcc.compile_cuda(code, target="ptx")
 
 
 def write_code(code, fname):
@@ -47,9 +46,9 @@ def write_code(code, fname):
 def tvm_callback_cuda_postproc(code):
     if not os.path.exists("perf"):
         os.mkdir("perf")
-    write_code(code, "perf/%s_generated.cu" % TASK)
+    write_code(code, f"perf/{TASK}_generated.cu")
     if USE_MANUAL_CODE:
-        code = open("perf/%s_manual.cu" % TASK).read()
+        code = open(f"perf/{TASK}_manual.cu").read()
     return code
 
 

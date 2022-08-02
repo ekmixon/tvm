@@ -23,7 +23,7 @@ from tvm.contrib import cc, utils
 
 def test_add(target_dir):
     if not tvm.runtime.enabled("cuda"):
-        print("skip %s because cuda is not enabled..." % __file__)
+        print(f"skip {__file__} because cuda is not enabled...")
         return
     n = te.var("n")
     A = te.placeholder((n,), name="A")

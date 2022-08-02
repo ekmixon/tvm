@@ -40,7 +40,7 @@ proxy_host = os.environ["TVM_IOS_RPC_PROXY_HOST"]
 destination = os.environ["TVM_IOS_RPC_DESTINATION"]
 
 if not re.match(r"^platform=.*,id=.*$", destination):
-    print("Bad format: {}".format(destination))
+    print(f"Bad format: {destination}")
     print("Example of expected string: platform=iOS,id=1234567890abcabcabcabc1234567890abcabcab")
     sys.exit(1)
 
@@ -52,7 +52,7 @@ key = "iphone"
 # sdk = "iphonesimulator"
 arch = "arm64"
 sdk = "iphoneos"
-target_host = "llvm -mtriple=%s-apple-darwin" % arch
+target_host = f"llvm -mtriple={arch}-apple-darwin"
 
 # override metal compiler to compile to iphone
 @tvm.register_func("tvm_callback_metal_compile")
@@ -115,10 +115,7 @@ def test_mobilenet():
         # connect to the proxy
         remote = rpc.connect(proxy_host, proxy_port, key=key)
 
-        if target == "metal":
-            dev = remote.metal(0)
-        else:
-            dev = remote.cpu(0)
+        dev = remote.metal(0) if target == "metal" else remote.cpu(0)
         lib = remote.load_module("deploy.dylib")
         m = graph_executor.GraphModule(lib["default"](dev))
 
